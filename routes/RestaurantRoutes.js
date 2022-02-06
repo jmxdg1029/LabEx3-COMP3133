@@ -3,6 +3,35 @@ const express = require('express');
 const restModel = require('../restaurants');
 const app = express();
 
+app.get('/seed',async (req, res) => {
+    try{
+        await restModel.insertMany(
+            [{
+                "name":"Makimono",
+                "cuisines":"Japanese",
+                "city":"Ajax"
+            },
+            {
+                "name":"Tatami",
+                "cuisines":"Japanese",
+                "city":"Toronto"
+            },
+            {
+                "name":"Mak European",
+                "cuisines":"delicatessen",
+                "city":"Quebec"
+            },
+            {
+                "name":"Makimono",
+                "cuisines":"delicatessen",
+                "city":"Brooklyn"
+            }]
+        )
+        res.send(await restModel.find({}))
+    }catch(err){
+        res.status(500).send({error: err.toString()})
+    }
+})
 
 //Question 4
 //Selects all columns
@@ -98,33 +127,5 @@ app.post('/restaurants', async (req, res) => {
     }
 })
 
-app.get('/seed',async (req, res) => {
-    try{
-        await restModel.insertMany(
-            [{
-                "name":"Makimono",
-                "cuisines":"Japanese",
-                "city":"Ajax"
-            },
-            {
-                "name":"Tatami",
-                "cuisines":"Japanese",
-                "city":"Toronto"
-            },
-            {
-                "name":"Mak European",
-                "cuisines":"delicatessen",
-                "city":"Quebec"
-            },
-            {
-                "name":"Makimono",
-                "cuisines":"delicatessen",
-                "city":"Brooklyn"
-            }]
-        )
-        res.send(await restModel.find({}))
-    }catch(err){
-        res.status(500).send({error: err.toString()})
-    }
-})
+
 module.exports = app
