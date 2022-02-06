@@ -10,9 +10,7 @@ const RestaurantsSchema = new mongoose.Schema({
     city:{
         type:String
     },
-    updatedat: {
-        type:Date
-    }
+   
 })
 
 RestaurantsSchema.pre('save',(next) =>{
@@ -26,6 +24,10 @@ RestaurantsSchema.pre('save',(next) =>{
     }
 
     next()
+});
+
+RestaurantsSchema.static("getCuisine", function(value) {
+    return this.find({cuisines: value})
 });
 
 RestaurantsSchema.pre('findOneAndUpdate', (next) => {
